@@ -14,9 +14,12 @@ Gem::Specification.new do |s|
   s.description = "A user-to-user messaging system focused on being easy to integrate."
   s.license     = "MIT"
 
-  s.files = Dir["{app,config,db,lib}/**/*", "MIT-LICENSE", "Rakefile", "README.md"]
+  s.files = Dir["{app,config,db,lib}/**/*", "lib/generators/gramm/migration/*", "MIT-LICENSE", "Rakefile", "README.md"]
 
   s.add_dependency "rails", "~> 5.2.1"
 
   s.add_development_dependency "sqlite3"
+
+  s.require_paths = ["lib"]
+
 end
