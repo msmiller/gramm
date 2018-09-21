@@ -1,4 +1,4 @@
-$:.push File.expand_path("lib", __dir__)
+$:.push File.expand_path("../lib", __FILE__)
 
 # Maintain your gem's version:
 require "gramm/version"
@@ -14,12 +14,9 @@ Gem::Specification.new do |s|
   s.description = "A user-to-user messaging system focused on being easy to integrate."
   s.license     = "MIT"
 
-  s.files = Dir["{app,config,db,lib}/**/*", "lib/generators/gramm/migration/*", "MIT-LICENSE", "Rakefile", "README.md"]
+  s.files = Dir["{app,config,db,lib}/**/*", "MIT-LICENSE", "Rakefile", "README.md"]
 
   s.add_dependency "rails", "~> 5.0.0"
 
   s.add_development_dependency "sqlite3"
-
-  s.require_paths = ["lib"]
-
 end
