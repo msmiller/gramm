@@ -18,3 +18,15 @@ if ActiveSupport::TestCase.respond_to?(:fixture_path=)
   ActiveSupport::TestCase.file_fixture_path = ActiveSupport::TestCase.fixture_path + "/files"
   ActiveSupport::TestCase.fixtures :all
 end
+
+module GeneratorTestHelpers
+
+  def generate_sample_app
+    system "rails new dummy --skip-active-record --skip-test-unit --skip-spring --skip-bundle"
+  end
+
+  def remove_sample_app
+    system "rm -rf dummy"
+  end
+
+end
