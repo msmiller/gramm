@@ -112,6 +112,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  activerecord (~> 5.0.0)
   gramm!
   sqlite3
 

@@ -1,8 +1,8 @@
 # Configure Rails Environment
 ENV["RAILS_ENV"] = "test"
 
-require File.expand_path("../../test/dummy/config/environment.rb", __FILE__)
-ActiveRecord::Migrator.migrations_paths = [File.expand_path("../../test/dummy/db/migrate", __FILE__)]
+### require File.expand_path("../../test/dummy/config/environment.rb", __FILE__)
+### ActiveRecord::Migrator.migrations_paths = [File.expand_path("../../test/dummy/db/migrate", __FILE__)]
 require "rails/test_help"
 
 # Filter out Minitest backtrace while allowing backtrace from other libraries
@@ -19,14 +19,14 @@ if ActiveSupport::TestCase.respond_to?(:fixture_path=)
   ActiveSupport::TestCase.fixtures :all
 end
 
-module GeneratorTestHelpers
-
-  def generate_sample_app
-    system "rails new dummy --skip-active-record --skip-test-unit --skip-spring --skip-bundle"
-  end
-
-  def remove_sample_app
-    system "rm -rf dummy"
-  end
-
-end
+### module GeneratorTestHelpers
+### 
+###   def generate_sample_app
+###     system "rails new dummy --skip-active-record --skip-test-unit --skip-spring --skip-bundle"
+###   end
+### 
+###   def remove_sample_app
+###     system "rm -rf dummy"
+###   end
+### 
+### end
