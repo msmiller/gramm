@@ -2,7 +2,7 @@
 # @Author: Mark Miller
 # @Date:   2018-09-19 23:35:09
 # @Last Modified by:   Mark Miller
-# @Last Modified time: 2018-09-19 23:45:12
+# @Last Modified time: 2018-09-22 00:54:07
 #
 # Copyright (c) 2017-2018 Sharp Stone Codewerks / Mark S. Miller
 
@@ -11,11 +11,10 @@ class GrammMigration < Unread::MIGRATION_BASE_CLASS
     create_table Gramm, force: true, options: create_options do |t|
 
       t.references :sender, polymorphic: { null: false }
-      t.references :recip, polymorphic: { null: false }
+      t.references :recipient, polymorphic: { null: false }
       t.string :subject
       t.text :body
       t.integer :thread_id      # The first message of a thread
-      t.integer :parent_id
       t.boolean :is_read, :default => false
       t.boolean :sender_trashed, :default => false
       t.boolean :recip_trashed, :default => false
