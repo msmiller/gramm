@@ -15,7 +15,10 @@ class Gramm::Test < ActiveSupport::TestCase
     assert(User.count == 2, "Didn't find two users!")
     assert(User.first.name == "First User", "First user isn't right!")
     assert(User.last.name == "Second User", "Second user isn't right!")
-    assert true
+  end
+
+  test "no gramms yet" do
+    assert(@user1.inbox_gramms.count == 0, "There were gramms when there shouldn't be!")
   end
 
 

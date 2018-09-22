@@ -2,7 +2,7 @@
 # @Author: Mark Miller
 # @Date:   2018-09-22 00:21:40
 # @Last Modified by:   Mark Miller
-# @Last Modified time: 2018-09-22 00:54:31
+# @Last Modified time: 2018-09-22 01:19:12
 #
 # Copyright (c) 2017-2018 Sharp Stone Codewerks / Mark S. Miller
 
@@ -23,10 +23,10 @@ ActiveRecord::Schema.define do
     t.integer :thread_id
     t.boolean :is_read, :default => false
     t.boolean :sender_trashed, :default => false
-    t.boolean :recip_trashed, :default => false
+    t.boolean :recipient_trashed, :default => false
     t.boolean :sender_deleted, :default => false
-    t.boolean :recip_deleted, :default => false
-    
+    t.boolean :recipient_deleted, :default => false
+
     t.timestamps
   end
 

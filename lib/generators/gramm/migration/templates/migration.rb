@@ -2,7 +2,7 @@
 # @Author: Mark Miller
 # @Date:   2018-09-19 23:35:09
 # @Last Modified by:   Mark Miller
-# @Last Modified time: 2018-09-22 00:54:07
+# @Last Modified time: 2018-09-22 01:19:21
 #
 # Copyright (c) 2017-2018 Sharp Stone Codewerks / Mark S. Miller
 
@@ -17,9 +17,9 @@ class GrammMigration < Unread::MIGRATION_BASE_CLASS
       t.integer :thread_id      # The first message of a thread
       t.boolean :is_read, :default => false
       t.boolean :sender_trashed, :default => false
-      t.boolean :recip_trashed, :default => false
+      t.boolean :recipient_trashed, :default => false
       t.boolean :sender_deleted, :default => false
-      t.boolean :recip_deleted, :default => false
+      t.boolean :recipient_deleted, :default => false
       t.timestamps
     end
 
