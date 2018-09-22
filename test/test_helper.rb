@@ -44,3 +44,13 @@ def print_and_flush(str)
   print str
   $stdout.flush
 end
+
+# https://github.com/seattlerb/minitest/issues/732
+class Minitest::Result
+  def method name
+    o = Object.new
+    def o.source_location
+      ["unknown", -1]
+    end
+  end
+end
