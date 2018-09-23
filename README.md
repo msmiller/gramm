@@ -2,7 +2,7 @@
 
 At one point or another, many projects need some way to communicate either between the system and users, users and the system, or users and users. This can be things like feedback, system notifications, user support, or object-to-object messages.
 
-Gramm is a very basic "plumbing only" messaging gem that makes it easy to allow polymorphic senders to send messages to polymorphic recipients. There's no views or controllers - that's left for the application. There's also nothing fancy like folders or complex threading, or multi-recipient send. 
+Gramm is a very basic "plumbing only" messaging gem that makes it easy to allow polymorphic senders to send messages to polymorphic recipients. There's no views or controllers - that's left for the application. There's also nothing fancy like folders or complex threading, or multi-recipient send.
 
 Features include:
 
@@ -49,7 +49,7 @@ You can alter the status of a Gramm with the following methods:
 @gramm.mark_as_read     # Mark the Gramm as read
 @gramm.mark_as_unread   # Mark the Gramm as unread
 @gramm.mark_as_trashed  # Toggle the Gramm's Trash status'
-@gramm.mark_as_deleted  # Soft-delete the Gramm 
+@gramm.mark_as_deleted  # Soft-delete the Gramm
 ```
 
 Viewed status applies only to the recipient. Both Sender and Recipient have independent trash and deleted status. When a Gramm is marked as deleted by either party, it is soft-deleted. Database cleanup can be done by accessing the global Purge List of Gramms which have been marked as deleted by both parties.
@@ -60,11 +60,19 @@ To get the global Purge List of deletable messages (for database cleanup):
 Gramm::purge_list
 ```
 
-Basic threading is supported. All replies to an initial Gramm are tagged as descendents. 
+### Threading
+
+Basic threading is supported. All replies to an initial Gramm are tagged as descendents.
 
 ```ruby
 @gramm.reply_to(current_user, "This is my reply") # current_user is the sender
 @gramm.thread # => List of Gramms in the thread, can be accessed from replies too
+```
+
+If you want to be able to directly inject a reply to a thread, you can add the thread_id to the normal `send_gram` method:
+
+```ruby
+@user1.send_gramm(@user2, "RE: First Gramm", "This is my reply.", @gramm.id)
 ```
 
 ## Installation
@@ -91,7 +99,21 @@ rake db:migrate
 ```
 
 ## Contributing
-Contribution directions go here.
+
+If you'd like to help out and extend this (or add the rigging for earlier versions of Rails), feel free to create a branch and generate a pull request. Please add an issue before you start in on something so I can keep track of who's doing what.
+
+## Compatability
+
+This was developed on Rails 5 mainly because that's what my daily stack is. It probably works on Rails 3 and 4 as there's nothing really fancy going on, but I haven't done up the extra Gemfiles and what-not to check and see.
+
+## Testing
+
+Just run good ole MiniTest:
+
+```shell
+bundle
+bin/test
+```
 
 ## License
 The gem is available as open source under the terms of the [MIT License](http://opensource.org/licenses/MIT).

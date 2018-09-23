@@ -10,7 +10,7 @@ module Gramm
   module ActsAsGrammer
 
     extend ActiveSupport::Concern
- 
+
     class_methods do
       def acts_as_grammer(options = {})
 
@@ -25,7 +25,6 @@ module Gramm
 
       end
     end
-
 
     # Send a gramm to a recip
     def send_gramm(recipient, subject, body, thread_id=nil)
@@ -49,10 +48,9 @@ module Gramm
 
     # Find the gramm for the current actor
     def find_gramm(id)
-      self.all_rcvd_gramms.find_by_id(id) || self.all_sent_gramms.find_by_id(id) 
+      self.all_rcvd_gramms.find_by_id(id) || self.all_sent_gramms.find_by_id(id)
     end
 
 
   end # module ActsAsGrammer
 end # module Gramm
- 

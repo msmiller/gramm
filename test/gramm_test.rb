@@ -42,13 +42,22 @@ class Gramm::Test < ActiveSupport::TestCase
 
   test "purge list" do
     @user1.send_gramm(@user2, "First Gramm", "This is the first Gramm.")
-    @use2.send_gramm(@user1, "Second Gramm", "This is the second Gramm.")
+    @user2.send_gramm(@user1, "Second Gramm", "This is the second Gramm.")
     @gramm1 = @user2.unread_gramms.first
     assert(Gramm::purge_list.count == 0, "Purge List should have been empty")
     @gramm1.mark_as_deleted(@user1)
     assert(Gramm::purge_list.count == 0, "Purge List should have been empty")
     @gramm1.mark_as_deleted(@user2)
     assert(Gramm::purge_list.count == 1, "Purge List should have had one item")
+  end
+
+  test "test replies" do
+    @gramm = @user1.send_gramm(@user2, "First Gramm", "This is the first Gramm.")
+    @gramm.reply_to(@user2, "This is my reply")
+    @gramm.reply_to(@user1, "This is my reply to your reply")
+    p @gramm.thread.inspect
+    assert(@gramm.thread.count == 2, "Purge List should have had one item")
+
   end
 
 end

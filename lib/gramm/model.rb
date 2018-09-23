@@ -14,6 +14,7 @@ module Gramm
 
     belongs_to :sender, :polymorphic => true
     belongs_to :recipient, :polymorphic => true
+    has_many   :replies, class_name: 'Gramm', foreign_key: 'id', primary_key: :thread_id
 
     BOXNAMES = {
       'inbox' => 'Inbox',
@@ -61,11 +62,15 @@ module Gramm
 
     # Reply to a Gramm
     def reply_to(reply_sender, body)
-      Gramm.create( :sender => reply_sender, 
+      Gramm.create( :sender => reply_sender,
                     :recipient => (reply_sender == self.sender ? self.recipient : self.sender),
                     :subject => self.subject, :body => body, :thread_id => self.id )
     end
     # @gramm.reply_to(current_user, 'foo')
+
+    def thread
+      self.replies
+    end
 
   end # class Gramm
 
