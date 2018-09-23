@@ -2,7 +2,7 @@
 # @Author: Mark Miller
 # @Date:   2018-09-22 02:13:30
 # @Last Modified by:   Mark Miller
-# @Last Modified time: 2018-09-22 02:39:17
+# @Last Modified time: 2018-09-22 03:28:30
 #
 # Copyright (c) 2017-2018 Sharp Stone Codewerks / Mark S. Miller
 
@@ -21,9 +21,14 @@ module Gramm
       'trash' => 'Trash'
     }
 
-    # set the is_read flag - only recipientient does this
+    # set/unset the is_read flag - only recipientient does this
     def mark_as_read
       self.update_attribute :is_read, true
+      self.is_read
+    end
+
+    def mark_as_unread
+      self.update_attribute :is_read, false
       self.is_read
     end
 
@@ -53,6 +58,14 @@ module Gramm
     def was_sent_by?(actor)
       (self.sender.class == actor.class) && (self.sender.id == actor.id)
     end
+
+    # Reply to a Gramm
+    def reply_to(reply_sender, body)
+      Gramm.create( :sender => reply_sender, 
+                    :recipient => (reply_sender == self.sender ? self.recipient : self.sender),
+                    :subject => self.subject, :body => body, :thread_id => self.id )
+    end
+    # @gramm.reply_to(current_user, 'foo')
 
   end # class Gramm
 

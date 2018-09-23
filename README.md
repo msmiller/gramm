@@ -2,7 +2,7 @@
 
 At one point or another, many projects need some way to communicate either between the system and users, users and the system, or users and users. This can be things like feedback, system notifications, user support, or object-to-object messages.
 
-Gramm is a very basic "plumbing only" messaging gem that makes it easy to allow polymorphic senders send messages to polymorphic recipients. There's no views or controllers - that's left for the application. There's also nothing fancy like folders or complex threading, or multi-recipient send. 
+Gramm is a very basic "plumbing only" messaging gem that makes it easy to allow polymorphic senders to send messages to polymorphic recipients. There's no views or controllers - that's left for the application. There's also nothing fancy like folders or complex threading, or multi-recipient send. 
 
 Features include:
 
@@ -33,10 +33,38 @@ Using Gramm is pretty easy stuff too:
 @user2.unread_gramms.count # => 1
 ```
 
+There's some other handy accessors to help building out controllers:
+
+```ruby
+@user.all_rcvd_gramms       # All incoming Gramms, regardless of state
+@user.all_sent_gramms       # All outgoing Gramms, regardless of state
+
+@user.trashed_inbox_gramms  # Inbox Trash
+@user.trashed_outbox_gramms # Outbox Trash
+```
+
+You can alter the status of a Gramm with the following methods:
+
+```ruby
+@gramm.mark_as_read     # Mark the Gramm as read
+@gramm.mark_as_unread   # Mark the Gramm as unread
+@gramm.mark_as_trashed  # Toggle the Gramm's Trash status'
+@gramm.mark_as_deleted  # Soft-delete the Gramm 
+```
+
+Viewed status applies only to the recipient. Both Sender and Recipient have independent trash and deleted status. When a Gramm is marked as deleted by either party, it is soft-deleted. Database cleanup can be done by accessing the global Purge List of Gramms which have been marked as deleted by both parties.
+
 To get the global Purge List of deletable messages (for database cleanup):
 
 ```ruby
 Gramm::purge_list
+```
+
+Basic threading is supported. All replies to an initial Gramm are tagged as descendents. 
+
+```ruby
+@gramm.reply_to(current_user, "This is my reply") # current_user is the sender
+@gramm.thread # => List of Gramms in the thread, can be accessed from replies too
 ```
 
 ## Installation
