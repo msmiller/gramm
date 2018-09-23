@@ -18,5 +18,6 @@ Gem::Specification.new do |s|
 
   s.add_dependency "rails", ">= 5.0.0"
   s.add_development_dependency "sqlite3"
+  s.add_development_dependency "awesome_print"
   # s.add_runtime_dependency 'activerecord', ['~> 5.0']
 end

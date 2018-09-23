@@ -6,20 +6,25 @@
 #
 # Copyright (c) 2017-2018 Sharp Stone Codewerks / Mark S. Miller
 
-class GrammMigration < Unread::MIGRATION_BASE_CLASS
+class GrammMigration < (ActiveRecord.version.release() < Gem::Version.new('5.2.0') ? ActiveRecord::Migration : ActiveRecord::Migration[5.2])
   def self.up
     create_table Gramm, force: true, options: create_options do |t|
 
-      t.references :sender, polymorphic: { null: false }
-      t.references :recipient, polymorphic: { null: false }
-      t.string :subject
-      t.text :body
-      t.integer :thread_id      # The first message of a thread
-      t.boolean :is_read, :default => false
-      t.boolean :sender_trashed, :default => false
-      t.boolean :recipient_trashed, :default => false
-      t.boolean :sender_deleted, :default => false
-      t.boolean :recipient_deleted, :default => false
+      t.references  :sender, polymorphic: { null: false }
+      t.references  :recipient, polymorphic: { null: false }
+      t.string      :subject
+      t.text        :body
+      t.string      :format, default: 'text'
+      t.boolean     :is_read, :default => false
+
+      t.integer     :thread_id # The first message of a thread
+      t.boolean     :allow_replies, :default => false # Change to true if you want replies on by default
+
+      t.boolean     :sender_trashed, :default => false
+      t.boolean     :recipient_trashed, :default => false
+      t.boolean     :sender_deleted, :default => false
+      t.boolean     :recipient_deleted, :default => false
+
       t.timestamps
     end
 

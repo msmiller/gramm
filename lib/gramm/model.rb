@@ -14,8 +14,9 @@ module Gramm
 
     belongs_to :sender, :polymorphic => true
     belongs_to :recipient, :polymorphic => true
-    has_many   :replies, class_name: 'Gramm', foreign_key: 'id', primary_key: :thread_id
-
+    has_many   :replies, class_name: 'Gramm', foreign_key: :thread_id, primary_key: :id, dependent: :destroy
+    scope      :threads, -> { where( thread_id: nil ) }
+    
     BOXNAMES = {
       'inbox' => 'Inbox',
       'sentbox' => 'Sent',
@@ -66,10 +67,15 @@ module Gramm
                     :recipient => (reply_sender == self.sender ? self.recipient : self.sender),
                     :subject => self.subject, :body => body, :thread_id => self.id )
     end
-    # @gramm.reply_to(current_user, 'foo')
+
+    # Thread support methods
 
     def thread
-      self.replies
+      self.replies.order('id DESC')
+    end
+
+    def thread_has_unread?
+      self.replies.where(is_read: false).count >= 1
     end
 
   end # class Gramm

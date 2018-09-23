@@ -1,4 +1,5 @@
 require 'test_helper'
+require "awesome_print"
 
 class Gramm::Test < ActiveSupport::TestCase
   test "truth" do
@@ -27,6 +28,7 @@ class Gramm::Test < ActiveSupport::TestCase
 
   test "send gramm" do
     @user1.send_gramm(@user2, "First Gramm", "This is the first Gramm.")
+
     assert(@user1.outbox_gramms.count == 1, "User1 should have 1 in the outbox")
     assert(@user2.inbox_gramms.count == 1, "User2 should have 1 in the inbox")
     assert(@user2.unread_gramms.count == 1, "User2 should have 1 unread")
@@ -36,6 +38,7 @@ class Gramm::Test < ActiveSupport::TestCase
     @user1.send_gramm(@user2, "First Gramm", "This is the first Gramm.")
     @gramm = @user2.unread_gramms.first
     @gramm.mark_as_read
+
     assert(@user2.inbox_gramms.count == 1, "User2 should have 1 in the inbox")
     assert(@user2.unread_gramms.count == 0, "User2 should have 0 unread")
   end
@@ -43,6 +46,7 @@ class Gramm::Test < ActiveSupport::TestCase
   test "purge list" do
     @user1.send_gramm(@user2, "First Gramm", "This is the first Gramm.")
     @user2.send_gramm(@user1, "Second Gramm", "This is the second Gramm.")
+    
     @gramm1 = @user2.unread_gramms.first
     assert(Gramm::purge_list.count == 0, "Purge List should have been empty")
     @gramm1.mark_as_deleted(@user1)
@@ -51,13 +55,18 @@ class Gramm::Test < ActiveSupport::TestCase
     assert(Gramm::purge_list.count == 1, "Purge List should have had one item")
   end
 
-  test "test replies" do
+=begin
+  test "test threads" do
     @gramm = @user1.send_gramm(@user2, "First Gramm", "This is the first Gramm.")
     @gramm.reply_to(@user2, "This is my reply")
     @gramm.reply_to(@user1, "This is my reply to your reply")
-    p @gramm.thread.inspect
-    assert(@gramm.thread.count == 2, "Purge List should have had one item")
 
+    assert( @user1.inbox_gramms.count == 1, "User 1 inbox should have had one item" )
+    assert( @user2.inbox_gramms.count == 2, "User 2 inbox should have had two items" )
+
+    assert(@gramm.thread.count == 2, "Thread count should have been two")
+    assert( @gramm.thread_has_unread?, "Thread_has_unread should have been true" )
   end
+=end
 
 end

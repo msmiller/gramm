@@ -2,14 +2,14 @@
 
 At one point or another, many projects need some way to communicate either between the system and users, users and the system, or users and users. This can be things like feedback, system notifications, user support, or object-to-object messages.
 
-Gramm is a very basic "plumbing only" messaging gem that makes it easy to allow polymorphic senders to send messages to polymorphic recipients. There's no views or controllers - that's left for the application. There's also nothing fancy like folders or complex threading, or multi-recipient send.
+Gramm is a very basic "plumbing only" messaging gem that makes it easy to allow polymorphic senders to send messages to polymorphic recipients. There's no views or controllers - that's left for the application. There's also nothing fancy like folders or complex threading or multi-recipient send.
 
 Features include:
 
 - Sender and recipient can be any kind of model. So this is useful in groupware environments.
 - Inbox, Outbox, and Trash supported.
-- Single-level thread support (replies to a first Gramm).
-- Global "Purge List" for Gramms which bother ends of a conversation have marked as deleted.
+<!-- - Single-level thread support (replies to a first Gramm). -->
+- Global "Purge List" for Gramms which both ends of a conversation have marked as deleted.
 
 ## Usage
 
@@ -60,19 +60,13 @@ To get the global Purge List of deletable messages (for database cleanup):
 Gramm::purge_list
 ```
 
-### Threading
+Note that the sender and recipient are polymorphic. So if you had a system where Users were members of Teams, you could quickly add the ability for the Team to send a Gramm to a User:
 
-Basic threading is supported. All replies to an initial Gramm are tagged as descendents.
-
-```ruby
-@gramm.reply_to(current_user, "This is my reply") # current_user is the sender
-@gramm.thread # => List of Gramms in the thread, can be accessed from replies too
 ```
+@user1 = User.first
+@team1 = @user.team
 
-If you want to be able to directly inject a reply to a thread, you can add the thread_id to the normal `send_gram` method:
-
-```ruby
-@user1.send_gramm(@user2, "RE: First Gramm", "This is my reply.", @gramm.id)
+@team1.send_gramm(@user1, "You are now a member of Team One.", "Welcome aboard!")
 ```
 
 ## Installation
@@ -97,6 +91,16 @@ The run the generator and migration:
 rails generate gramm:migration
 rake db:migrate
 ```
+
+## Road Map
+
+- Basic thread support (incl. 'allow_replies')
+
+    - _This is partly coded now, but not complete. I don't need it in any of my own projects - when I do, I'll finish it._
+
+- Allow Markdown and Html format message bodies
+
+    - _Database support is already in, but I want to add things like sanitization of message bodies before releasing._
 
 ## Contributing
 

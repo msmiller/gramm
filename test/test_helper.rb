@@ -1,9 +1,10 @@
 # Configure Rails Environment
 ENV["RAILS_ENV"] = "test"
 
-#require File.expand_path("../../test/dummy/config/environment.rb", __FILE__)
-#ActiveRecord::Migrator.migrations_paths = [File.expand_path("../../test/dummy/db/migrate", __FILE__)]
-require "rails"
+require_relative "../test/dummy/config/environment"
+# require File.expand_path("../../test/dummy/config/environment.rb", __FILE__)
+ActiveRecord::Migrator.migrations_paths = [File.expand_path("../../test/dummy/db/migrate", __FILE__)]
+
 require "rails/test_help"
 
 # Filter out Minitest backtrace while allowing backtrace from other libraries
@@ -58,20 +59,3 @@ class Minitest::Result
   end
 end
 =end
-
-class Minitest::Result
-  def method name
-    o = Object.new
-    def o.source_location
-      ["unknown", -1]
-    end
-  end
-end
-
-def method name
-  if name.to_sym == method_object.name
-    method_object
-  else
-    orig_method(name)
-  end
-end

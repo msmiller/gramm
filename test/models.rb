@@ -6,7 +6,7 @@
 #
 # Copyright (c) 2017-2018 Sharp Stone Codewerks / Mark S. Miller
 
-#include Gramm::ActsAsGrammer
+include Gramm::ActsAsGrammer
 
 class User < ActiveRecord::Base
   acts_as_grammer
