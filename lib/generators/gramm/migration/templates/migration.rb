@@ -2,13 +2,13 @@
 # @Author: Mark Miller
 # @Date:   2018-09-19 23:35:09
 # @Last Modified by:   Mark Miller
-# @Last Modified time: 2018-09-22 01:19:21
+# @Last Modified time: 2018-09-23 20:19:46
 #
 # Copyright (c) 2017-2018 Sharp Stone Codewerks / Mark S. Miller
 
 class GrammMigration < (ActiveRecord.version.release() < Gem::Version.new('5.2.0') ? ActiveRecord::Migration : ActiveRecord::Migration[5.2])
   def self.up
-    create_table Gramm, force: true, options: create_options do |t|
+    create_table :gramms, force: true, options: create_options do |t|
 
       t.references  :sender, polymorphic: { null: false }
       t.references  :recipient, polymorphic: { null: false }
@@ -28,12 +28,12 @@ class GrammMigration < (ActiveRecord.version.release() < Gem::Version.new('5.2.0
       t.timestamps
     end
 
-    add_index Gramm, "thread_id"
-    add_index Gramm, "parent_id"
+    add_index :gramms, "thread_id"
+    add_index :gramms, "parent_id"
   end
 
   def self.down
-    drop_table Gramm
+    drop_table :gramms
   end
 
   def self.create_options

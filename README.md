@@ -17,7 +17,7 @@ Simply add the concern to whatever model you want to be able to send/receive Gra
 
 ```ruby
 class User < ActiveRecord::Base
-  acts_as_grammer
+    include Gramm::ActsAsGrammer
 end
 ```
 
