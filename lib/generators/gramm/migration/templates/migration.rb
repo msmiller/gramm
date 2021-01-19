@@ -15,7 +15,7 @@ class GrammMigration < (ActiveRecord.version.release() < Gem::Version.new('5.2.0
       t.string      :subject
       t.text        :body
       t.string      :format, default: 'text'
-      t.boolean     :is_read, :default => false
+      t.boolean     :is_read, :default => false # read by recipient
 
       t.integer     :thread_id # The first message of a thread
       t.boolean     :allow_replies, :default => false # Change to true if you want replies on by default
